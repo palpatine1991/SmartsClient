@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Dokument bez názvu</title>
+<link rel="stylesheet" type="text/css" href="atomChoice.css">
+<script src="atomChoice.js"></script>
+</head>
+<body  onload='init()'>
+<div id="main">
+	<div id="type">
+    	<button class="type" id="aromatic" onclick='changeType("aromatic")'>Aromatic</button>
+        <button class="type" id="aliphatic" onclick='changeType("aliphatic")'>Aliphatic</button>
+        <button class="type" id="both" onclick='changeType("both")'>Both</button>
+    </div>
+	<div id="first">
+    	<button class="first" onclick='selectAtomType(this)'>H</button>
+        <button class="first" onclick='selectAtomType(this)'>Li</button>
+        <button class="first" onclick='selectAtomType(this)'>Na</button>
+        <button class="first" onclick='selectAtomType(this)'>K</button>
+        <button class="first" onclick='selectAtomType(this)'>Rb</button>
+        <button class="first" onclick='selectAtomType(this)'>Cs</button>
+        <button class="first" onclick='selectAtomType(this)'>Fr</button>
+	</div>
+    <div id="second">
+    	<button class="second" onclick='selectAtomType(this)'>Be</button>
+        <button class="second" onclick='selectAtomType(this)'>Mg</button>
+        <button class="second" onclick='selectAtomType(this)'>Ca</button>
+        <button class="second" onclick='selectAtomType(this)'>Sr</button>
+        <button class="second" onclick='selectAtomType(this)'>Ba</button>
+        <button class="second" onclick='selectAtomType(this)'>Ra</button>
+    </div>
+    <div id="third">
+    	<button class="third" onclick='selectAtomType(this)'>Sc</button>
+        <button class="third" onclick='selectAtomType(this)'>Y</button>
+        <button class="third" onclick='selectAtomType(this)'>La</button>
+        <button class="third" onclick='selectAtomType(this)'>Ac</button>
+    </div>
+    <div id="fourth">
+    	<button class="fourth" onclick='selectAtomType(this)'>Ti</button>
+        <button class="fourth" onclick='selectAtomType(this)'>Zr</button>
+        <button class="fourth" onclick='selectAtomType(this)'>Hf</button>
+        <button class="fourth" onclick='selectAtomType(this)'>Rf</button>
+    </div>
+    <div id="fifth">
+    	<button class="fifth" onclick='selectAtomType(this)'>V</button>
+        <button class="fifth" onclick='selectAtomType(this)'>Nb</button>
+        <button class="fifth" onclick='selectAtomType(this)'>Ta</button>
+        <button class="fifth" onclick='selectAtomType(this)'>Db</button>
+    </div>
+    <div id="sixth">
+    	<button class="sixth" onclick='selectAtomType(this)'>Cr</button>
+        <button class="sixth" onclick='selectAtomType(this)'>Mo</button>
+        <button class="sixth" onclick='selectAtomType(this)'>W</button>
+        <button class="sixth" onclick='selectAtomType(this)'>Sg</button>
+    </div>
+    <div id="seventh">
+    	<button class="seventh" onclick='selectAtomType(this)'>Mn</button>
+        <button class="seventh" onclick='selectAtomType(this)'>Tc</button>
+        <button class="seventh" onclick='selectAtomType(this)'>Re</button>
+        <button class="seventh" onclick='selectAtomType(this)'>Bh</button>
+    </div>
+    <div id="eigth">
+    	<button class="eigth" onclick='selectAtomType(this)'>Fe</button>
+        <button class="eigth" onclick='selectAtomType(this)'>Ru</button>
+        <button class="eigth" onclick='selectAtomType(this)'>Os</button>
+        <button class="eigth" onclick='selectAtomType(this)'>Hs</button>
+    </div>
+    <div id="ninth">
+    	<button class="ninth" onclick='selectAtomType(this)'>Co</button>
+        <button class="ninth" onclick='selectAtomType(this)'>Rh</button>
+        <button class="ninth" onclick='selectAtomType(this)'>Ir</button>
+        <button class="ninth" onclick='selectAtomType(this)'>Mt</button>
+    </div>
+    <div id="tenth">
+    	<button class="tenth" onclick='selectAtomType(this)'>Ni</button>
+        <button class="tenth" onclick='selectAtomType(this)'>Pd</button>
+        <button class="tenth" onclick='selectAtomType(this)'>Pt</button>
+    </div>
+    <div id="eleventh">
+    	<button class="eleventh" onclick='selectAtomType(this)'>Cu</button>
+        <button class="eleventh" onclick='selectAtomType(this)'>Ag</button>
+        <button class="eleventh" onclick='selectAtomType(this)'>Au</button>
+    </div>
+    <div id="twelfth">
+    	<button class="twelfth" onclick='selectAtomType(this)'>Zn</button>
+        <button class="twelfth" onclick='selectAtomType(this)'>Cd</button>
+        <button class="twelfth" onclick='selectAtomType(this)'>Hg</button>
+    </div>
+    <div id="thirteenth">
+    	<button class="thirteenth" onclick='selectAtomType(this)'>B</button>
+        <button class="thirteenth" onclick='selectAtomType(this)'>Al</button>
+        <button class="thirteenth" onclick='selectAtomType(this)'>Ga</button>
+        <button class="thirteenth" onclick='selectAtomType(this)'>In</button>
+        <button class="thirteenth" onclick='selectAtomType(this)'>Tl</button>
+    </div>
+    <div id="fourteenth">
+    	<button class="fourteenth" onclick='selectAtomType(this)'>C</button>
+        <button class="fourteenth" onclick='selectAtomType(this)'>Si</button>
+        <button class="fourteenth" onclick='selectAtomType(this)'>Ge</button>
+        <button class="fourteenth" onclick='selectAtomType(this)'>Sn</button>
+        <button class="fourteenth" onclick='selectAtomType(this)'>Pb</button>
+    </div>
+    <div id="fifteenth">
+    	<button class="fifteenth" onclick='selectAtomType(this)'>N</button>
+        <button class="fifteenth" onclick='selectAtomType(this)'>P</button>
+        <button class="fifteenth" onclick='selectAtomType(this)'>As</button>
+        <button class="fifteenth" onclick='selectAtomType(this)'>Sb</button>
+        <button class="fifteenth" onclick='selectAtomType(this)'>Bi</button>
+    </div>
+    <div id="sixteenth">
+    	<button class="sixteenth" onclick='selectAtomType(this)'>O</button>
+        <button class="sixteenth" onclick='selectAtomType(this)'>S</button>
+        <button class="sixteenth" onclick='selectAtomType(this)'>Se</button>
+        <button class="sixteenth" onclick='selectAtomType(this)'>Te</button>
+        <button class="sixteenth" onclick='selectAtomType(this)'>Po</button>
+    </div>
+    <div id="seventeenth">
+    	<button class="seventeenth" onclick='selectAtomType(this)'>F</button>
+        <button class="seventeenth" onclick='selectAtomType(this)'>Cl</button>
+        <button class="seventeenth" onclick='selectAtomType(this)'>Br</button>
+        <button class="seventeenth" onclick='selectAtomType(this)'>I</button>
+        <button class="seventeenth" onclick='selectAtomType(this)'>At</button>
+    </div>
+    <div id="eighteenth">
+    	<button class="eighteenth" onclick='selectAtomType(this)'>He</button>
+        <button class="eighteenth" onclick='selectAtomType(this)'>Ne</button>
+        <button class="eighteenth" onclick='selectAtomType(this)'>Ar</button>
+        <button class="eighteenth" onclick='selectAtomType(this)'>Kr</button>
+        <button class="eighteenth" onclick='selectAtomType(this)'>Xe</button>
+        <button class="eighteenth" onclick='selectAtomType(this)'>Rn</button>
+    </div>
+    <div id="lanthanoids">
+    	<button class="lanthanoids" onclick='selectAtomType(this)'>Ce</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Pr</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Nd</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Pm</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Sm</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Eu</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Gd</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Tb</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Dy</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Ho</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Er</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Tm</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Yb</button>
+        <button class="lanthanoids" onclick='selectAtomType(this)'>Lu</button>
+    </div>
+    <div id="actinoids">
+    	<button class="actinoids" onclick='selectAtomType(this)'>Th</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Pa</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>U</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Np</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Pu</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Am</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Cm</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Bk</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Cf</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Es</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Fm</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Md</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>No</button>
+        <button class="actinoids" onclick='selectAtomType(this)'>Lr</button>
+    </div>
+    <button id="ok" onclick="ok()">OK</button>
+    <button id="cancel" onclick="cancel()">Cancel</button>
+</div>
+</body>
+</html>
