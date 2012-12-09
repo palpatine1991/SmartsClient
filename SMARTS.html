@@ -10,18 +10,38 @@ var createjs = window;
 <script src="easeljs-0.5.0.min.js"></script>
 <script src="atom.js"></script>
 <script src="api.js"></script>
+<script src="bond.js"></script>
 
 </head>
 <body onload="init()">
-<canvas id="canvas" width="640" height="480"></canvas>
+<canvas id="canvas" width="800" height="600"></canvas>
 <div id="rightMenu">
-	<button id="AtomChoice" class="AtomButton" onclick="openAtomChoice()"></button>
+	<button id="AtomChoice" class="AtomButton" onclick="openAtomChoice(null)"></button>
 	<button id="C" class="AtomButton" onclick='changeAtomType("C")'>C</button>
     <button id="N" class="AtomButton" onclick='changeAtomType("N")'>N</button>
     <button id="F" class="AtomButton" onclick='changeAtomType("F")'>F</button>  
+    <div id="atom-bondSpace"></div>
+    <button id="singleBond" class="AtomButton" onclick='changeBondType("singleBond")'>-</button>  
+    <button id="doubleBond" class="AtomButton" onclick='changeBondType("doubleBond")'>=</button> 
+    <button id="tripleBond" class="AtomButton" onclick='changeBondType("tripleBond")'>≡</button> 
 </div>
-<div id="info">
-
+<div id="toolDiv">
+	<button id="move" class="AtomButton" onclick='changeAction("move")'></button>
+</div>
+<div id="infoDiv">
+	<table id="infoTable">
+    	<tr><td class="nameCell">Aliphatic</td></tr>
+        <tr><td id="possibleAliphatic"></td></tr>
+        <tr><td class="nameCell">Aromatic</td></tr>
+        <tr><td id="possibleAromatic"></td></tr>
+         <tr><td >ChangeAtoms <button id="AtomChoice" class="AtomButton" onclick="openAtomChoice(shownAtom)"></button></td></tr>
+        <tr><td class="nameCell">Charge</td></tr>
+        <tr><td id="possibleCharges"></td></tr>
+        <tr><td id="possibleChargeAdder"><input type="number" id="chargeAdder"/><br><button id="chargeAdderAdd" onclick="addCharge()">Add</button><button id="chargeAdderDelete" onclick="deleteCharge()">Delete</button></td></tr>
+        <tr><td class="nameCell">Valence</td></tr>
+        <tr><td id="possibleValences"></td></tr>
+        <tr><td id="possibleValenceAdder"><input type="number" id="valenceAdder" min="1"/><br><button id="valenceAdderAdd" onclick="addValence()">Add</button><button id="valenceAdderDelete" onclick="deleteValence()">Delete</button></td></tr>
+    </table>
 </div>
    
 

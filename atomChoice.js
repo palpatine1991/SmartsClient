@@ -4,101 +4,103 @@ activeType = "aliphatic"; //..,aromatic,both
 
 function init(){
 	document.getElementById("aliphatic").style.backgroundColor = "#F00";
+	if(openAtom){
+		initPeriodicTable();
+	}
+}
+
+function initPeriodicTable(){
+	//init aliphatic
+	for(var i = 0; i < openAtom.possibleAliphatic.length; i++){
+		turnAliphatic(document.getElementById(openAtom.possibleAliphatic[i]));
+	}
+	//init aromatic
+	for(var i = 0; i < openAtom.possibleAromatic.length; i++){
+		var button = document.getElementById(openAtom.possibleAromatic[i]);
+		if(button.style.borderColor == "rgb(255, 0, 0)"){
+			turnBoth(button);
+		}
+		else{
+			turnAromatic(button);
+		}
+	}	
+}
+
+function turnAliphatic(dom){
+	var index = activeAromaticType.indexOf(dom.innerHTML);
+	if(index != -1){
+		activeAromaticType.splice(index,1);
+	}
+	index = activeAliphaticType.indexOf(dom.innerHTML);
+	if(index == -1){
+		activeAliphaticType.push(dom.innerHTML);
+	}
+	dom.style.borderColor = "#F00";
+	dom.style.borderWidth = "4px";
+}
+
+function turnAromatic(dom){
+	var index = activeAliphaticType.indexOf(dom.innerHTML);
+	if(index != -1){
+		activeAliphaticType.splice(index,1);
+	}
+	index = activeAromaticType.indexOf(dom.innerHTML);
+	if(index == -1){
+		activeAromaticType.push(dom.innerHTML);
+	}
+	dom.style.borderColor = "#0FF";
+	dom.style.borderWidth = "4px";
+}
+
+function turnBoth(dom){
+	var index = activeAliphaticType.indexOf(dom.innerHTML);
+	if(index == -1){
+		activeAliphaticType.push(dom.innerHTML);
+	}
+	index = activeAromaticType.indexOf(dom.innerHTML);
+	if(index == -1){
+		activeAromaticType.push(dom.innerHTML);
+	}
+	dom.style.borderColor = "#C0F";
+	dom.style.borderWidth = "4px";
+}
+
+function turnUnmarked(dom){
+	var index = activeAliphaticType.indexOf(dom.innerHTML);
+	if(index != -1){
+		activeAliphaticType.splice(index,1);
+	}
+	index = activeAromaticType.indexOf(dom.innerHTML);
+	if(index != -1){
+		activeAromaticType.splice(index,1);
+	}
+	dom.style.borderColor = "#000";
+	dom.style.borderWidth = "1px";
 }
 
 function selectAtomType(dom){
 	if(activeType == "aliphatic"){
-		if(dom.style.borderWidth == "4px"){  //if button is selected
-			if(dom.style.borderColor == "rgb(255, 0, 0)"){ //button is aliphatic
-				var index = activeAliphaticType.indexOf(dom.innerHTML);
-				activeAliphaticType.splice(index,1);
-				
-				dom.style.borderColor = "#000";
-				dom.style.borderWidth = "1px";
-			}
-			else if(dom.style.borderColor == "rgb(0, 255, 255)"){  //button is aromatic
-				var index = activeAromaticType.indexOf(dom.innerHTML);
-				activeAromaticType.splice(index,1);
-				activeAliphaticType.push(dom.innerHTML);
-				
-				dom.style.borderColor = "#F00";
-				dom.style.borderWidth = "4px";
-			}
-			else{ //button is both aliphatic and aromatic
-				var index = activeAromaticType.indexOf(dom.innerHTML);
-				activeAromaticType.splice(index,1);
-				
-				dom.style.borderColor = "#F00";
-				dom.style.borderWidth = "4px";
-			}
+		if(dom.style.borderColor == "rgb(255, 0, 0)"){  //if button is selected
+			turnUnmarked(dom);
 		}
 		else{ //button is not selected
-			activeAliphaticType.push(dom.innerHTML);
-			dom.style.borderColor = "#F00";
-			dom.style.borderWidth = "4px";
+			turnAliphatic(dom);
 		}
 	}
 	else if(activeType == "aromatic"){
-		if(dom.style.borderWidth == "4px"){  //if button is selected
-			if(dom.style.borderColor == "rgb(0, 255, 255)"){ //button is aromatic
-				var index = activeAromaticType.indexOf(dom.innerHTML);
-				activeAromaticType.splice(index,1);
-				
-				dom.style.borderColor = "#000";
-				dom.style.borderWidth = "1px";
-			}
-			else if(dom.style.borderColor == "rgb(255, 0, 0)"){  //button is aliphatic
-				var index = activeAliphaticType.indexOf(dom.innerHTML);
-				activeAliphaticType.splice(index,1);
-				activeAromaticType.push(dom.innerHTML);
-				
-				dom.style.borderColor = "#0FF";
-				dom.style.borderWidth = "4px";
-			}
-			else{ //button is both aliphatic and aromatic
-				var index = activeAliphaticType.indexOf(dom.innerHTML);
-				activeAliphaticType.splice(index,1);
-				
-				dom.style.borderColor = "#0FF";
-				dom.style.borderWidth = "4px";
-			}
+		if(dom.style.borderColor == "rgb(0, 255, 255)"){  //if button is selected
+			turnUnmarked(dom);
 		}
 		else{ //button is not selected
-			activeAromaticType.push(dom.innerHTML);
-			dom.style.borderColor = "#0FF";
-			dom.style.borderWidth = "4px";
+			turnAromatic(dom);
 		}
 	}
 	else{
-		if(dom.style.borderWidth == "4px"){  //if button is selected
-			if(dom.style.borderColor == "rgb(204, 0, 255)"){ //button is both
-				var index = activeAromaticType.indexOf(dom.innerHTML);
-				activeAromaticType.splice(index,1);
-				index = activeAliphaticType.indexOf(dom.innerHTML);
-				activeAliphaticType.splice(index,1);
-				
-				dom.style.borderColor = "#000";
-				dom.style.borderWidth = "1px";
-			}
-			else if(dom.style.borderColor == "rgb(255, 0, 0)"){  //button is aliphatic
-				activeAromaticType.push(dom.innerHTML);
-				
-				dom.style.borderColor = "#C0F";
-				dom.style.borderWidth = "4px";
-			}
-			else{ //button is aromatic
-				activeAliphaticType.push(dom.innerHTML);
-				
-				dom.style.borderColor = "#C0F";
-				dom.style.borderWidth = "4px";
-			}
+		if(dom.style.borderColor == "rgb(204, 0, 255)"){  //if button is selected
+			turnUnmarked(dom);
 		}
 		else{ //button is not selected
-			activeAromaticType.push(dom.innerHTML);
-			activeAliphaticType.push(dom.innerHTML);
-			
-			dom.style.borderColor = "#C0F";
-			dom.style.borderWidth = "4px";
+			turnBoth(dom);
 		}
 	}
 }
@@ -121,18 +123,28 @@ function changeType(type){
 }
 
 function ok(){
-	if(activeAromaticType.length + activeAliphaticType.length == 0){
-		window.opener.action = "move";
+	if(openAtom){
+		for(var i = 0; i < window.opener.stage.children[1].children.length; i++){ //finding atom in atomContainer
+			if(window.opener.stage.children[1].children[i].id == openAtom.id){
+				window.opener.stage.children[1].children[i].possibleAliphatic = activeAliphaticType;
+				window.opener.stage.children[1].children[i].possibleAromatic = activeAromaticType;
+				window.opener.stage.children[1].children[i].changeColorAndText();
+				window.opener.updateShownProperties();
+				break;
+			}
+		}
 	}
 	else{
-		window.opener.action = "create";
+		window.opener.deactivateButton();
+		if(activeAromaticType.length + activeAliphaticType.length == 0){
+			window.opener.changeAction("move");
+		}
+		else{
+			window.opener.action = "createAtom";
+		}
+		window.opener.activeAromaticType = activeAromaticType;
+		window.opener.activeAliphaticType = activeAliphaticType;
 	}
-	var button = window.opener.document.getElementById(window.opener.activeAliphaticType[0]);
-	if(button != null){
-		button.style.backgroundColor = "#EFEFEF";
-	}	
-	window.opener.activeAromaticType = activeAromaticType;
-	window.opener.activeAliphaticType = activeAliphaticType;
 	window.close();
 }
 

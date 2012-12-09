@@ -13,23 +13,77 @@
 	 background-image:url(tabulka.jpg);
 }
 
+table{
+	border: 1px solid black;
+}
+
+td{
+	border: 1px solid black;
+	text-align:center;
+	width: 130px;
+	max-width: 130px;
+	height: 20px;
+}
+
+.nameCell{
+	background-color:#8B77FF;
+}
+
+#chargeAdder{
+	width: 80px;
+}
+
+#valenceAdder{
+	width: 80px;
+}
+
+#move{
+	background-image:url(hand.png);
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:contain;
+	margin-top: 6px;
+}
+
+#toolDiv{
+	width : 800px;
+	height: 42px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -350px;
+	margin-left: -400px;
+	background: #CCC;
+	border: 1px solid black;	
+}
+
+#infoDiv{
+	position: fixed;
+  	top: 50%;
+  	left: 50%;
+	margin-top: -300px;
+	margin-left: 460px;
+}
+
 canvas {
   	position: fixed;
   	top: 50%;
   	left: 50%;
-  	margin-top: -240px;
-	margin-left: -320px;
+  	margin-top: -300px;
+	margin-left: -400px;
 	border: 1px solid black;
 }
 
 #rightMenu{
 	width : 42px;
-	height: 480px;
+	height: 600px;
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	margin-top: -240px;
-	margin-left: 330px;
+	margin-top: -300px;
+	margin-left: 410px;
 	background: #CCC;
 	border: 1px solid black;	
 }
+#atom-bondSpace{
+	height:30px;}
