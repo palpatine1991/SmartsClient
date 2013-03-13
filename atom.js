@@ -27,7 +27,7 @@ function Atom(aromatic, aliphatic, x, y){
 			atom.graphics.beginFill("#C0F");
 		}
 		else if(this.possibleAromatic.length > 0){
-			atom.graphics.beginFill("#0FF");
+			atom.graphics.beginFill("#0CC");
 		}
 		else{
 			atom.graphics.beginFill("#F00");
@@ -52,6 +52,62 @@ function Atom(aromatic, aliphatic, x, y){
 		this.addChild(text);
 		update = true;
 	}
+	
+	this.atomPressHandler = function(e){
+		if(action == "createBond" && lastActiveAtom && !lastActiveAtom.newBondCheck){
+			e.target.newBond = true;
+			e.target.newBondCheck = true;
+		}
+		else if(action == "createBond" && lastActiveAtom && lastActiveAtom.newBondCheck){
+			if(lastActiveAtom == e.target) {
+				e.target.newBond = true;
+				e.target.newBondCheck = true;
+			}
+			else if(Atom.checkExistingBonds(e.target, lastActiveAtom)){
+				var bond = new Bond(activeBondType, lastActiveAtom, e.target, lastActiveAtom.x + 10, lastActiveAtom.y + 10, e.target.x + 10, e.target.y + 10);
+				lastActiveAtom.bonds.push(bond);
+				e.target.bonds.push(bond);
+				changeAction("move");
+				update = true;
+			}
+		}
+		else if(action == "delete"){
+			var _atom = e.target;
+			for(var i = 0; i < _atom.bonds.length; i++){
+				//odstraneni vazby i z druheho koncoveho atomu
+				var end = null;
+				if(_atom.bonds[i].startAtom == _atom){
+					end = _atom.bonds[i].endAtom;
+				}
+				else{
+					end = _atom.bonds[i].startAtom;
+				}
+				var index = end.bonds.indexOf(_atom.bonds[i]);
+				end.bonds.splice(index,1);
+						
+				//odstraneni vazby z canvasu
+				bondContainer.removeChild(_atom.bonds[i]);
+			}
+			atomContainer.removeChild(_atom);
+		}
+		
+		if(action != "delete"){
+			Atom.activateAtom(e.target);
+			
+			//pohyb
+			var differenceX = e.stageX - e.target.x;
+			var differenceY = e.stageY - e.target.y;
+			e.onMouseMove = function(ev) {
+				Atom.moveBonds(ev, e.target, differenceX, differenceY);
+				e.target.x = ev.stageX - differenceX;
+				e.target.y = ev.stageY - differenceY;
+				update = true;
+			}	
+		}
+		
+		update = true;
+	}
+	
 	this.changeColorAndText();
 	
 	//2 promenne kvuli tomu, ze prvni event dostane stage, ktera atom deaktivuje a teprve potom atom
@@ -59,63 +115,71 @@ function Atom(aromatic, aliphatic, x, y){
 	this.newBond = false;
 	this.newBondCheck = false;
 	
-	this.onPress = atomPressHandler;
+	this.onPress = this.atomPressHandler;
+	
+	changeAction("move");
 	
 	
 }
 
-function updateShownProperties(){
+Atom.moveBonds = function(e, atom, differenceX, differenceY){
+		for(var i = 0; i < atom.bonds.length; i++){
+			if(atom.x == atom.bonds[i].startX - 10 && atom.y == atom.bonds[i].startY - 10){
+				atom.bonds[i].moveBond(e, differenceX, differenceY, "start");
+			}
+			else{
+				atom.bonds[i].moveBond(e, differenceX, differenceY, "end");
+			}
+		}
+	}
+
+Atom.updateShownProperties = function(){
 	document.getElementById("possibleAliphatic").innerHTML = shownAtom.possibleAliphatic;
 	document.getElementById("possibleAromatic").innerHTML = shownAtom.possibleAromatic;
 	document.getElementById("possibleCharges").innerHTML = shownAtom.possibleCharges;
 	document.getElementById("possibleValences").innerHTML = shownAtom.possibleValences;
 }
 
-function atomPressHandler(e){
-	if(action == "createBond" && lastActiveAtom && !lastActiveAtom.newBondCheck){
-		e.target.newBond = true;
-		e.target.newBondCheck = true;
-	}
-	else if(action == "createBond" && lastActiveAtom && lastActiveAtom.newBondCheck){
-		if(lastActiveAtom == e.target) {
-			e.target.newBond = true;
-			e.target.newBondCheck = true;
-		}
-		else{
-			var bond = new Bond(activeBondType, lastActiveAtom.x + 10, lastActiveAtom.y + 10, e.target.x + 10, e.target.y + 10);
-			lastActiveAtom.bonds.push(bond);
-			e.target.bonds.push(bond);
-			update = true;
-		}
-	}
+Atom.activateAtom = function(atom){
 	//aktivace atomu
-	shownAtom = e.target;
-	lastActiveAtom = e.target;
+	$("#atomInfoDiv").css("visibility","visible");
+	shownAtom = atom;
+	lastActiveAtom = atom;
 	lastActiveAtom.atom.graphics.beginStroke(Graphics.getRGB(0, 255, 0, 1));
 	lastActiveAtom.atom.graphics.drawEllipse(0,0,atomDiameter,atomDiameter);
 	
 	//zverejneni properties
-	updateShownProperties();
-	
-	//pohyb
-	var differenceX = e.stageX - e.target.x;
-	var differenceY = e.stageY - e.target.y;
-	e.onMouseMove = function(ev) {
-		moveBonds(ev, e.target, differenceX, differenceY);
-		e.target.x = ev.stageX - differenceX;
-		e.target.y = ev.stageY - differenceY;
-		update = true;
+	Atom.updateShownProperties();
+}
+
+Atom.deactivateAtom = function(){
+	$("#atomInfoDiv").css("visibility","hidden");
+	lastActiveAtom.atom.graphics.beginStroke(Graphics.getRGB(0, 0, 0, 1));
+	lastActiveAtom.atom.graphics.drawEllipse(0,0,atomDiameter,atomDiameter);
+	document.getElementById("possibleAliphatic").innerHTML = [];
+	document.getElementById("possibleAromatic").innerHTML = [];
+	document.getElementById("possibleCharges").innerHTML = [];
+	document.getElementById("possibleValences").innerHTML = [];
+	if(lastActiveAtom.newBond){
+		lastActiveAtom.newBond = false;
 	}
+	else if(lastActiveAtom.newBondCheck){
+		lastActiveAtom.newBondCheck = false;
+	}
+	shownAtom = null;
 	update = true;
 }
 
-function moveBonds(e, atom, differenceX, differenceY){
-	for(var i = 0; i < atom.bonds.length; i++){
-		if(atom.x == atom.bonds[i].startX - 10 && atom.y == atom.bonds[i].startY - 10){
-			atom.bonds[i].moveBond(e, differenceX, differenceY, "start");
+Atom.checkExistingBonds = function(start, end){ //vrati true, pokud mezi start a end zatim neexistuje vazba
+	var answer = true;
+	for(var i=0; i < start.bonds.length; i++){
+		var bond = start.bonds[i];
+		if(bond.startAtom == start && bond.endAtom == end){
+			answer = false;
 		}
-		else{
-			atom.bonds[i].moveBond(e, differenceX, differenceY, "end");
+		else if(bond.startAtom == end && bond.endAtom == start){
+			answer = false;
 		}
 	}
+	return answer;
 }

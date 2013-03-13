@@ -1,25 +1,72 @@
 Bond.prototype = new Container();
+Bond.shownBond;
 
-function Bond(type, startX, startY, endX, endY){
+function Bond(type, startAtom, endAtom, startX, startY, endX, endY){
 	Container.apply(this);
 	var bond = new Shape();
 	bondContainer.addChild(this);
 	
+	this.startAtom = startAtom;
+	this.endAtom = endAtom;
 	this.startX = startX;
 	this.startY = startY;
 	this.endX = endX;
 	this.endY = endY;
-	this.type = type;
+	this.type = [type];
 	
-	this.drawSingleBond = function(){
+	this.drawActiveLine = function(){
+		this.activeLine = new Container();
+		this.addChild(this.activeLine);
+	}
+	
+	this.drawCombinedBond = function(){
+		var transparentLine = new Shape();
+		transparentLine.graphics.beginStroke(Graphics.getRGB(0,0,0,0.01)).setStrokeStyle(15);
+		transparentLine.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
+		this.addChild(transparentLine);
+		
 		var line = new Shape();
-		line.graphics.beginStroke(Graphics.getRGB(0,0,0)).setStrokeStyle(1);
+		line.graphics.beginStroke(Graphics.getRGB(255,153,0)).setStrokeStyle(2);
 		line.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
 		this.addChild(line);
+		
 		update = true;
 	}
 	
-	this.drawDoubleBond = function(){
+	this.drawAromaticBond = function(){
+		var transparentLine = new Shape();
+		transparentLine.graphics.beginStroke(Graphics.getRGB(0,0,0,0.01)).setStrokeStyle(15);
+		transparentLine.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
+		this.addChild(transparentLine);
+		
+		var line = new Shape();
+		line.graphics.beginStroke(Graphics.getRGB(0,191,191)).setStrokeStyle(2);
+		line.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
+		this.addChild(line);
+		
+		update = true;
+	}
+
+	this.drawSingleBond = function(){
+		var transparentLine = new Shape();
+		transparentLine.graphics.beginStroke(Graphics.getRGB(0,0,0,0.01)).setStrokeStyle(15);
+		transparentLine.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
+		this.addChild(transparentLine);
+		
+		var line = new Shape();
+		line.graphics.beginStroke(Graphics.getRGB(0,0,0)).setStrokeStyle(2);
+		line.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
+		this.addChild(line);
+		
+		update = true;
+	}
+	
+	this.drawDoubleBond = function(){		
+		var transparentLine = new Shape();
+		transparentLine.graphics.beginStroke(Graphics.getRGB(0,0,0,0.01)).setStrokeStyle(15);
+		transparentLine.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
+		this.addChild(transparentLine);
+		
 		var line = new Shape();
 		line.graphics.beginStroke(Graphics.getRGB(0,0,0)).setStrokeStyle(4);
 		line.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
@@ -34,6 +81,11 @@ function Bond(type, startX, startY, endX, endY){
 	}
 	
 	this.drawTripleBond = function(){
+		var transparentLine = new Shape();
+		transparentLine.graphics.beginStroke(Graphics.getRGB(0,0,0,0.01)).setStrokeStyle(15);
+		transparentLine.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
+		this.addChild(transparentLine);
+		
 		var line = new Shape();
 		line.graphics.beginStroke(Graphics.getRGB(0,0,0)).setStrokeStyle(7);
 		line.graphics.moveTo(this.startX,this.startY).lineTo(this.endX,this.endY);
@@ -52,15 +104,41 @@ function Bond(type, startX, startY, endX, endY){
 		update = true;
 	}
 	
+	this.bondPressHandler = function(e){
+		if(action != "delete"){
+			Bond.activateBond(e.target);	
+		}
+		else{
+			var index = e.target.startAtom.bonds.indexOf(e.target);
+			e.target.startAtom.bonds.splice(index,1);
+			index = e.target.endAtom.bonds.indexOf(e.target);
+			e.target.endAtom.bonds.splice(index,1);
+			bondContainer.removeChild(e.target);
+		}
+	}
+	
+	this.onPress = this.bondPressHandler;
+	
 	this.redraw = function(){
-		if(this.type == "singleBond"){
+		this.removeAllChildren();
+		this.drawActiveLine();
+		if(this.type.length == 1 && this.type[0] == "singleBond"){
 			this.drawSingleBond();
 		}
-		else if(this.type == "doubleBond"){
+		else if(this.type.length == 1 && this.type[0] == "doubleBond"){
 			this.drawDoubleBond();
 		}
-		else if(this.type == "tripleBond"){
+		else if(this.type.length == 1 && this.type[0] == "tripleBond"){
 			this.drawTripleBond();
+		}
+		else if(this.type.length == 1 && this.type[0] == "aromaticBond"){
+			this.drawAromaticBond();
+		}
+		else{
+			this.drawCombinedBond();
+		}
+		if(Bond.shownBond){
+			Bond.activateBond(Bond.shownBond);
 		}
 	}
 	this.redraw();
@@ -74,8 +152,53 @@ function Bond(type, startX, startY, endX, endY){
 			this.endX = e.stageX - differenceX + 10;
 			this.endY = e.stageY - differenceY + 10;
 		}
-		this.removeAllChildren();
 		this.redraw();
 	}
 }
 
+Bond.activateBond = function(bond){
+	$("#bondInfoDiv").css("visibility","visible");
+	Bond.shownBond = bond;
+	
+	var actline = new Shape();
+	actline.graphics.beginStroke(Graphics.getRGB(0,255,0)).setStrokeStyle(11);
+	actline.graphics.moveTo(bond.startX,bond.startY).lineTo(bond.endX,bond.endY);
+	bond.activeLine.addChild(actline);
+
+	actline = new Shape();
+	actline.graphics.beginStroke(Graphics.getRGB(255,255,255)).setStrokeStyle(8);
+	actline.graphics.moveTo(bond.startX,bond.startY).lineTo(bond.endX,bond.endY);
+	bond.activeLine.addChild(actline);	
+	
+	for(var i = 0; i < bond.type.length; i++){
+		$("#" + bond.type[i])[0].checked = true;
+	}
+	
+	update = true;
+}
+
+Bond.deactivateBond = function(){
+	$("#bondInfoDiv").css("visibility","hidden");
+	Bond.shownBond.activeLine.removeAllChildren();
+	Bond.shownBond = null;
+	
+	$("#singleBond")[0].checked = false;
+	$("#doubleBond")[0].checked = false;
+	$("#tripleBond")[0].checked = false;
+	$("#aromaticBond")[0].checked = false;
+}
+
+Bond.checkboxHandler = function(cb){
+	if(cb.checked){
+		Bond.shownBond.type.push(cb.value);
+	}
+	else{
+		if(Bond.shownBond.type.length == 1){
+			cb.checked = true;
+			return;
+		}
+		var index = Bond.shownBond.type.indexOf(cb.value);
+		Bond.shownBond.type.splice(index,1);
+	}
+	Bond.shownBond.redraw();
+}

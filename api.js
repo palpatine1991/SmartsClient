@@ -19,7 +19,7 @@ function init(){
 	
 	Ticker.addListener(window);
 	
-	interimBond = new Bond("singleBond", 0,0,0,0);
+	interimBond = new Bond("singleBond", null, null, 0,0,0,0);
 	changeAction("move");
 }
 
@@ -29,12 +29,17 @@ function changeAction(actualAction){
 		action = "move";
 		document.getElementById("move").style.backgroundColor = "#6A85FF";
 	}
+	else if(actualAction == "delete"){
+		deactivateButton();
+		action = "delete";
+		document.getElementById("delete").style.backgroundColor = "#6A85FF";
+	}
 }
 
 function stageOnMouseMoveHandler(e){
 	interimBond.removeAllChildren();
 	if(lastActiveAtom && lastActiveAtom.newBond){
-		interimBond.type = activeBondType;
+		interimBond.type = [activeBondType];
 		interimBond.startX = lastActiveAtom.x + 10;
 		interimBond.startY = lastActiveAtom.y + 10;
 		interimBond.endX = e.stageX;
@@ -47,20 +52,11 @@ function stageOnMouseMoveHandler(e){
 function stageOnMouseDownHandler(e){
 	//deaktivace atomu
 	if(lastActiveAtom){
-		lastActiveAtom.atom.graphics.beginStroke(Graphics.getRGB(0, 0, 0, 1));
-		lastActiveAtom.atom.graphics.drawEllipse(0,0,atomDiameter,atomDiameter);
-		document.getElementById("possibleAliphatic").innerHTML = [];
-		document.getElementById("possibleAromatic").innerHTML = [];
-		document.getElementById("possibleCharges").innerHTML = [];
-		document.getElementById("possibleValences").innerHTML = [];
-		if(lastActiveAtom.newBond){
-			lastActiveAtom.newBond = false;
-		}
-		else if(lastActiveAtom.newBondCheck){
-			lastActiveAtom.newBondCheck = false;
-		}
-		shownAtom = null;
-		update = true;
+		Atom.deactivateAtom();
+	}
+	
+	if(Bond.shownBond){
+		Bond.deactivateBond();
 	}
 	
 	if(action == "createAtom"){
@@ -132,7 +128,7 @@ function deactivateButton(){
 			button.style.backgroundColor = "#EFEFEF";
 		}
 	}
-	var button = document.getElementById(activeBondType);	
+	var button = document.getElementById(activeBondType + "Button");	
 	if(button != null){
 		button.style.backgroundColor = "#EFEFEF";
 		activeBondType = null;
@@ -151,7 +147,7 @@ function changeBondType(type){
 	action = "createBond";
 	activeBondType = type;
 	
-	var button = document.getElementById(type);
+	var button = document.getElementById(type + "Button");
 	button.style.backgroundColor = "#6A85FF";
 	update = true;
 }
@@ -198,4 +194,3 @@ function deleteValence(){
 		document.getElementById("possibleValences").innerHTML = shownAtom.possibleValences;
 	}
 }
-

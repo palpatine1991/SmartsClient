@@ -48,7 +48,7 @@ function turnAromatic(dom){
 	if(index == -1){
 		activeAromaticType.push(dom.innerHTML);
 	}
-	dom.style.borderColor = "#0FF";
+	dom.style.borderColor = "#0CC";
 	dom.style.borderWidth = "4px";
 }
 
@@ -115,7 +115,7 @@ function changeType(type){
 		document.getElementById("aliphatic").style.backgroundColor = "#F00";
 	}
 	else if(type == "aromatic"){
-		document.getElementById("aromatic").style.backgroundColor = "#0FF";
+		document.getElementById("aromatic").style.backgroundColor = "#0CC";
 	}
 	else{
 		document.getElementById("both").style.backgroundColor = "#C0F";

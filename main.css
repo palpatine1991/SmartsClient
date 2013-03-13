@@ -44,6 +44,13 @@ td{
 	background-size:contain;
 	margin-top: 6px;
 }
+#delete{
+	background-image:url(DeleteRed.png);
+	background-repeat:no-repeat;
+	background-position:center;
+	background-size:contain;
+	margin-top: 6px;
+}
 
 #toolDiv{
 	width : 800px;
@@ -57,12 +64,22 @@ td{
 	border: 1px solid black;	
 }
 
-#infoDiv{
+#atomInfoDiv{
 	position: fixed;
   	top: 50%;
   	left: 50%;
 	margin-top: -300px;
 	margin-left: 460px;
+	visibility: hidden;
+}
+
+#bondInfoDiv{
+	position: fixed;
+  	top: 50%;
+  	left: 50%;
+	margin-top: -300px;
+	margin-left: 460px;
+	visibility: hidden;
 }
 
 canvas {
