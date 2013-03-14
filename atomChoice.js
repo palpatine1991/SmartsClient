@@ -123,6 +123,10 @@ function changeType(type){
 }
 
 function ok(){
+	if(activeAliphaticType.length == 0 && activeAromaticType.length == 0){
+		alert("You can not set empty atom");
+		return;
+	}
 	if(openAtom){
 		for(var i = 0; i < window.opener.stage.children[1].children.length; i++){ //finding atom in atomContainer
 			if(window.opener.stage.children[1].children[i].id == openAtom.id){

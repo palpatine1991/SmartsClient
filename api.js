@@ -179,7 +179,7 @@ function deleteCharge(){
 function addValence(){
 	if(!shownAtom){return;}
 	var number = document.getElementById("valenceAdder").valueAsNumber;
-	if((number || number == 0) && shownAtom.possibleValences.indexOf(number) == -1){
+	if((number > 0) && shownAtom.possibleValences.indexOf(number) == -1){
 		shownAtom.possibleValences.push(number);
 		document.getElementById("possibleValences").innerHTML = shownAtom.possibleValences;
 	}
@@ -188,7 +188,7 @@ function addValence(){
 function deleteValence(){
 	if(!shownAtom){return;}
 	var number = document.getElementById("valenceAdder").valueAsNumber;
-	if((number || number == 0) && shownAtom.possibleValences.indexOf(number) != -1){
+	if((number > 0) && shownAtom.possibleValences.indexOf(number) != -1){
 		var index = shownAtom.possibleValences.indexOf(number);
 		shownAtom.possibleValences.splice(index,1);
 		document.getElementById("possibleValences").innerHTML = shownAtom.possibleValences;
