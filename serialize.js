@@ -44,7 +44,7 @@ Serializer.dfs = function(atom,bond){
 	var atomString = "[";
 	//pridani alifatickych moznosti
 	for(var i=0; i < atom.possibleAliphatic.length; i++){
-		atomString += atom.possibleAliphatic[i];
+		atomString += Serializer.convertToNumber(atom.possibleAliphatic[i]);
 		atomString += "&A";
 		
 		if(i < atom.possibleAliphatic.length - 1){
@@ -57,7 +57,7 @@ Serializer.dfs = function(atom,bond){
 	}
 	//pridani aromatickych moznosti
 	for(var i=0; i < atom.possibleAromatic.length; i++){
-		atomString += atom.possibleAromatic[i];
+		atomString += Serializer.convertToNumber(atom.possibleAromatic[i]);
 		atomString += "&a";
 		
 		if(i < atom.possibleAromatic.length - 1){
