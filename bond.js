@@ -6,6 +6,7 @@ function Bond(type, startAtom, endAtom, startX, startY, endX, endY){
 	var bond = new Shape();
 	bondContainer.addChild(this);
 	
+	this.visited = false;
 	this.startAtom = startAtom;
 	this.endAtom = endAtom;
 	this.startX = startX;
@@ -109,13 +110,10 @@ function Bond(type, startAtom, endAtom, startX, startY, endX, endY){
 			Bond.activateBond(e.target);	
 		}
 		else{
-			var index = e.target.startAtom.bonds.indexOf(e.target);
-			e.target.startAtom.bonds.splice(index,1);
-			index = e.target.endAtom.bonds.indexOf(e.target);
-			e.target.endAtom.bonds.splice(index,1);
-			bondContainer.removeChild(e.target);
+			Bond.deleteBond(e.target);
 		}
 	}
+	
 	
 	this.onPress = this.bondPressHandler;
 	
@@ -156,7 +154,19 @@ function Bond(type, startAtom, endAtom, startX, startY, endX, endY){
 	}
 }
 
+Bond.deleteBond = function(bond){
+	var index = bond.startAtom.bonds.indexOf(bond);
+	bond.startAtom.bonds.splice(index,1);
+	index = bond.endAtom.bonds.indexOf(bond);
+	bond.endAtom.bonds.splice(index,1);
+	bondContainer.removeChild(bond);
+	update = true;
+}
+
 Bond.activateBond = function(bond){
+	if(bond == interimBond){
+		return;
+	}
 	$("#bondInfoDiv").css("visibility","visible");
 	Bond.shownBond = bond;
 	

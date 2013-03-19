@@ -16,7 +16,7 @@ var createjs = window;
 
 </head>
 <body onload="init()">
-<canvas id="canvas" width="800" height="600"></canvas>
+<canvas id="canvas" width="800px" height="600px"></canvas>
 <div id="rightMenu">
 	<button id="AtomChoice" class="AtomButton" onmousedown="openAtomChoice(null)"></button>
 	<button id="C" class="AtomButton" onmousedown='changeAtomType("C")'>C</button>
@@ -26,6 +26,7 @@ var createjs = window;
     <button id="singleBondButton" class="AtomButton" onmousedown='changeBondType("singleBond")'>-</button>  
     <button id="doubleBondButton" class="AtomButton" onmousedown='changeBondType("doubleBond")'>=</button> 
     <button id="tripleBondButton" class="AtomButton" onmousedown='changeBondType("tripleBond")'>≡</button> 
+    <button id="aromaticBondButton" class="AtomButton" onmousedown='changeBondType("aromaticBond")'>~</button> 
 </div>
 <div id="toolDiv">
 	<button id="move" class="AtomButton" onmousedown='changeAction("move")'></button>
@@ -59,8 +60,10 @@ var createjs = window;
 		</td></tr>
     </table>
 </div>
-<button onclick="Serializer.serialize()">Serialize</button>
-<div id="serialization">
+<div id="output">
+	<button onclick="Serializer.serialize()">Serialize</button>
+	<div id="serialization"></div>
+</div>
 	
 </div>
    

@@ -10,6 +10,34 @@ var interimBond;
 var shownAtom;
 
 function init(){
+	$(window).keydown(function(e) {
+  		if(e.which == 46){
+		  	if(shownAtom){
+		  		var sa = shownAtom;
+		  		Atom.deactivateAtom();
+		  		Atom.deleteAtom(sa);
+		  	}
+		  	else if(Bond.shownBond){
+		  		var sb = Bond.shownBond;
+		  		Bond.deactivateBond();
+		  		Bond.deleteBond(sb);
+		  		
+		  	}
+		}
+		if(e.which == 27){
+			interimBond.removeAllChildren();
+			changeAction("move");
+			if(lastActiveAtom){
+				Atom.deactivateAtom();
+			}
+			
+			if(Bond.shownBond){
+				Bond.deactivateBond();
+			}
+			update = true;
+		}
+	});
+	
 	stage = new Stage(document.getElementById("canvas"));	
 	stage.onMouseDown = stageOnMouseDownHandler;
 	stage.onMouseMove = stageOnMouseMoveHandler;
@@ -49,7 +77,9 @@ function stageOnMouseMoveHandler(e){
 	update = true;
 }
 
-function stageOnMouseDownHandler(e){
+function stageOnMouseDownHandler(e){	
+	//interimBond.removeAllChildren();
+	
 	//deaktivace atomu
 	if(lastActiveAtom){
 		Atom.deactivateAtom();

@@ -10,6 +10,7 @@ function Atom(aromatic, aliphatic, x, y){
 	
 	var atom = new Shape();
 	
+	this.visited = false;
 	this.possibleAliphatic = aliphatic;
 	this.possibleAromatic = aromatic;
 	this.atom = atom;
@@ -72,23 +73,7 @@ function Atom(aromatic, aliphatic, x, y){
 			}
 		}
 		else if(action == "delete"){
-			var _atom = e.target;
-			for(var i = 0; i < _atom.bonds.length; i++){
-				//odstraneni vazby i z druheho koncoveho atomu
-				var end = null;
-				if(_atom.bonds[i].startAtom == _atom){
-					end = _atom.bonds[i].endAtom;
-				}
-				else{
-					end = _atom.bonds[i].startAtom;
-				}
-				var index = end.bonds.indexOf(_atom.bonds[i]);
-				end.bonds.splice(index,1);
-						
-				//odstraneni vazby z canvasu
-				bondContainer.removeChild(_atom.bonds[i]);
-			}
-			atomContainer.removeChild(_atom);
+			Atom.deleteAtom(e.target);
 		}
 		
 		if(action != "delete"){
@@ -108,6 +93,8 @@ function Atom(aromatic, aliphatic, x, y){
 		update = true;
 	}
 	
+	
+	
 	this.changeColorAndText();
 	
 	//2 promenne kvuli tomu, ze prvni event dostane stage, ktera atom deaktivuje a teprve potom atom
@@ -123,15 +110,35 @@ function Atom(aromatic, aliphatic, x, y){
 }
 
 Atom.moveBonds = function(e, atom, differenceX, differenceY){
-		for(var i = 0; i < atom.bonds.length; i++){
-			if(atom.x == atom.bonds[i].startX - 10 && atom.y == atom.bonds[i].startY - 10){
-				atom.bonds[i].moveBond(e, differenceX, differenceY, "start");
-			}
-			else{
-				atom.bonds[i].moveBond(e, differenceX, differenceY, "end");
-			}
+	for(var i = 0; i < atom.bonds.length; i++){
+		if(atom.x == atom.bonds[i].startX - 10 && atom.y == atom.bonds[i].startY - 10){
+			atom.bonds[i].moveBond(e, differenceX, differenceY, "start");
+		}
+		else{
+			atom.bonds[i].moveBond(e, differenceX, differenceY, "end");
 		}
 	}
+}
+
+Atom.deleteAtom = function(_atom){
+	for(var i = 0; i < _atom.bonds.length; i++){
+		//odstraneni vazby i z druheho koncoveho atomu
+		var end = null;
+		if(_atom.bonds[i].startAtom == _atom){
+			end = _atom.bonds[i].endAtom;
+		}
+		else{
+			end = _atom.bonds[i].startAtom;
+		}
+		var index = end.bonds.indexOf(_atom.bonds[i]);
+		end.bonds.splice(index,1);
+				
+		//odstraneni vazby z canvasu
+		bondContainer.removeChild(_atom.bonds[i]);
+	}
+	atomContainer.removeChild(_atom);
+	update = true;
+}
 
 Atom.updateShownProperties = function(){
 	document.getElementById("possibleAliphatic").innerHTML = shownAtom.possibleAliphatic;
